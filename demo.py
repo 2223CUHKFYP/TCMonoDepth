@@ -49,8 +49,8 @@ def run(args):
     print("Initialize")
 
     # select device
-    device = torch.device("cuda")
-    deivce = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: %s" % device)
 
     # load network
@@ -75,8 +75,10 @@ def run(args):
 
     transform = Compose([
         Resize(
-            int(args.resize_size[0]),  #width
-            int(args.resize_size[1]),  #height
+            # args.resize_size[0],  #width
+            # args.resize_size[1],  #height
+            384,
+            384,
             resize_target=None,
             keep_aspect_ratio=True,
             ensure_multiple_of=32,
@@ -145,6 +147,8 @@ if __name__ == "__main__":
                         help="spatial dimension to resize input (default: small model:256, large model:384)")
 
     args = parser.parse_args()
-
+    print(args)
+    # print(args.resize_size[0])
+    # print(type(args.resize_size[0]))
     print("Run Video Depth Sample ")
     run(args)
