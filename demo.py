@@ -50,6 +50,7 @@ def run(args):
 
     # select device
     device = torch.device("cuda")
+    deivce = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: %s" % device)
 
     # load network
@@ -68,13 +69,14 @@ def run(args):
         print("Loading model path fail, model path does not exists.")
         exit()
 
-    model.cuda().eval()
+    # model.cuda().eval()
+    model.eval()
     print("Loading model done...")
 
     transform = Compose([
         Resize(
-            args.resize_size[0],  #width
-            args.resize_size[1],  #height
+            int(args.resize_size[0]),  #width
+            int(args.resize_size[1]),  #height
             resize_target=None,
             keep_aspect_ratio=True,
             ensure_multiple_of=32,
@@ -127,8 +129,8 @@ def run(args):
 
 if __name__ == "__main__":
     # set torch options
-    torch.backends.cudnn.enabled = True
-    torch.backends.cudnn.benchmark = True
+    torch.backends.cudnn.enabled = False
+    torch.backends.cudnn.benchmark = False
 
     # Settings
     parser = argparse.ArgumentParser(description="A PyTorch Implementation of Video Depth Estimation")
