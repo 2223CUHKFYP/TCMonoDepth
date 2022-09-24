@@ -1,3 +1,16 @@
+# modified By UMZR
+- ENV
+  - WSL 
+  - requirements.txt provided below
+  - [opencv.sh](https://github.com/milq/milq/blob/master/scripts/bash/install-opencv.sh)
+
+  or
+  - simply copy my Conda env 
+  - by using 
+  - > conda env create -f freeze.yml
+  - 
+
+
 <h2 align="center">TCMonoDepth: Enforcing Temporal Consistency in Video Depth Estimation</h2>
 
 <img src="figs/tennis.gif" width="100%">
