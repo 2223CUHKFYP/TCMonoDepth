@@ -73,8 +73,10 @@ def run(args):
 
     transform = Compose([
         Resize(
-            args.resize_size[0],  #width
-            args.resize_size[1],  #height
+            # args.resize_size[0],  #width
+            # args.resize_size[1],  #height
+            256,
+            256,
             resize_target=None,
             keep_aspect_ratio=True,
             ensure_multiple_of=32,
