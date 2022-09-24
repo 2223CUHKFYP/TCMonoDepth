@@ -75,8 +75,10 @@ def run(args):
         Resize(
             # args.resize_size[0],  #width
             # args.resize_size[1],  #height
-            256,
-            256,
+            # args.resize_size[0],
+            # args.resize_size[0],
+            384,
+            384,
             resize_target=None,
             keep_aspect_ratio=True,
             ensure_multiple_of=32,
@@ -140,8 +142,8 @@ if __name__ == "__main__":
     parser.add_argument('--input', default='./videos', type=str, help='video root path')
     parser.add_argument('--output', default='./output', type=str, help='path to save output')
     parser.add_argument('--resize_size',
-                        type=int,
                         default=384,
+                        type=int,
                         help="spatial dimension to resize input (default: small model:256, large model:384)")
 
     args = parser.parse_args()
