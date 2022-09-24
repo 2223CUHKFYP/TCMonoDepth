@@ -77,8 +77,8 @@ def run(args):
             # args.resize_size[1],  #height
             # args.resize_size[0],
             # args.resize_size[0],
-            256,
-            256,
+            384,
+            384,
             resize_target=None,
             keep_aspect_ratio=True,
             ensure_multiple_of=32,
