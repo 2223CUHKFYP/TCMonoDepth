@@ -117,12 +117,15 @@ def run(args):
 
         # save output
         output_name = os.path.join(args.output, scene_names[i] + '.mp4')
+        
         output_list = [process_depth(out) for out in output_list]
-
+      
         color_list = []
         for j in range(len(output_list)):
+            output_name_jpg = os.path.join(args.output, str(j) + '.jpg')
             frame_color = cv2.applyColorMap(output_list[j], cv2.COLORMAP_INFERNO)
             color_list.append(frame_color)
+            cv2.imwrite(output_name_jpg, frame_color)
 
         write_video(output_name, color_list)
 
