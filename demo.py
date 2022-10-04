@@ -123,9 +123,12 @@ def run(args):
         color_list = []
         for j in range(len(output_list)):
             output_name_jpg = os.path.join(args.output, str(j) + '.jpg')
+            output_name_jpg = os.path.join(args.output, str(j) + "_b" + '.jpg')
             frame_color = cv2.applyColorMap(output_list[j], cv2.COLORMAP_INFERNO)
+            frame_color2 = cv2.applyColorMap(output_list[j], cv2.COLORMAP_BONE)
             color_list.append(frame_color)
             cv2.imwrite(output_name_jpg, frame_color)
+            cv2.imwrite(output_name_jpg, frame_color2)
 
         write_video(output_name, color_list)
 
