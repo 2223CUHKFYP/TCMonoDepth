@@ -11,7 +11,7 @@ from torchvision.transforms import Compose
 from networks.transforms import Resize
 from networks.transforms import PrepareForNet
 from tqdm import tqdm
-
+import numpy as np 
 
 def write_video(filename, output_list, fps=24):
     assert (len(output_list) > 0)
@@ -29,7 +29,7 @@ def process_depth(dep):
     dep = dep - dep.min()
     dep = dep / dep.max()
     dep_vis = dep * 255
-
+    print(dep_vis.astype('uint8'))
     return dep_vis.astype('uint8')
 
 
@@ -44,6 +44,11 @@ def load_video_paths(args):
 
     return path_lists, scene_names
 
+def print_depth(out, cnt, output_path):
+    output_name = os.path.join(output_path, str(cnt) + '.csv')
+    np.savetxt(output_name, out.astype('uint8') , delimiter=",",  fmt='%o') 
+    # print("image: {}".format(cnt))
+    # print(out)
 
 def run(args):
     print("Initialize")
@@ -101,6 +106,7 @@ def run(args):
         output_list = []
         with torch.no_grad():
             for f in tqdm(path_lists[i]):
+
                 frame = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB)
                 frame = transform({"image": frame})["image"]
                 frame = torch.from_numpy(frame).to(device).unsqueeze(0)
@@ -113,17 +119,24 @@ def run(args):
                     mode="bicubic",
                     align_corners=False,
                 ).squeeze().cpu().numpy())
+
                 output_list.append(prediction)
 
         # save output
         output_name = os.path.join(args.output, scene_names[i] + '.mp4')
         
         output_list = [process_depth(out) for out in output_list]
-      
+
+        cnt = 0 
+        for out in output_list:
+            print_depth(out , cnt , args.output )
+            cnt += 1
+
         color_list = []
         for j in range(len(output_list)):
             output_name_jpg = os.path.join(args.output, str(j) + '.jpg')
             output_name_jpg = os.path.join(args.output, str(j) + "_b" + '.jpg')
+
             frame_color = cv2.applyColorMap(output_list[j], cv2.COLORMAP_INFERNO)
             frame_color2 = cv2.applyColorMap(output_list[j], cv2.COLORMAP_BONE)
             color_list.append(frame_color)
